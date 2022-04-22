@@ -22,6 +22,8 @@ function wheel(wheelState = initialWheelState, action) {
 
 const initialQuizState = null
 function quiz(quizState = initialQuizState, action) {
+  console.log('entro a reducer quizState', action.payload)
+  
   switch(action.type){
     case types.SET_QUIZ_INTO_STATE:
       return action.payload
@@ -41,12 +43,24 @@ function quiz(quizState = initialQuizState, action) {
 
 const initialSelectedAnswerState = null
 function selectedAnswer(state = initialSelectedAnswerState, action) {
-  return state
+  // console.log('entro a reducer selecAnswer', action.payload)
+  switch(action.type){
+    case types.SET_SELECTED_ANSWER:
+      return action.payload
+    default:
+      return state
+  }
 }
 
 const initialMessageState = ''
 function infoMessage(state = initialMessageState, action) {
-  return state
+  // console.log('entro a reducer infoMessage')
+  switch(action.type){
+    case types.SET_INFO_MESSAGE:
+      return action.payload
+    default:
+      return state
+  }
 }
 
 const initialFormState = {
