@@ -6,10 +6,10 @@ import { combineReducers } from 'redux'
 
 const initialWheelState = 0
 function wheel(wheelState = initialWheelState, action) {
-  console.log('enter wheel reducer action.type', action.type)
+  // console.log('enter wheel reducer action.type', action.type)
   switch(action.type){
     case types.MOVE_CLOCKWISE:
-      console.log('enter wheel reducer')
+      // console.log('enter wheel reducer')
       return wheelState <5 ? wheelState + 1 : 0 
        
     case types.MOVE_COUNTERCLOCKWISE:
@@ -21,8 +21,22 @@ function wheel(wheelState = initialWheelState, action) {
 }
 
 const initialQuizState = null
-function quiz(state = initialQuizState, action) {
-  return state
+function quiz(quizState = initialQuizState, action) {
+  switch(action.type){
+    case types.SET_QUIZ_INTO_STATE:
+      return action.payload
+
+
+
+
+
+    default:
+      return quizState
+
+  }
+
+
+
 }
 
 const initialSelectedAnswerState = null
