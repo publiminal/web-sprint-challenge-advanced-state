@@ -29,9 +29,13 @@ export function setQuiz(quiz) {
   return { type: types.SET_QUIZ_INTO_STATE, payload: quiz }
  }
 
-export function inputChange() { }
+export function inputChange(name, value) { 
+  return { type: types.INPUT_CHANGE, payload: {name:name, value:value } }
+}
 
-export function resetForm() { }
+export function resetForm() {
+  return { type: types.RESET_FORM }
+}
 
 // ❗ Async action creators
 export const fetchQuiz = () => {
@@ -50,7 +54,7 @@ export const fetchQuiz = () => {
       // setQuiz(quizFromAPI)
     })
     .catch(err => {
-      debugger
+      // debugger
       console.log(err.message)
     })
 
@@ -68,7 +72,6 @@ export function postAnswer({quizId, answerId}) {
       console.log('ok answer post ', res.data.message)
       dispatch({ type: types.SET_INFO_MESSAGE, payload: res.data.message })
       dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: null })
-      
     })
     .catch(err => {
       // debugger
@@ -82,11 +85,36 @@ export function postAnswer({quizId, answerId}) {
     // - Dispatch the fetching of the next quiz
   }
 }
-export function postQuiz() {
+
+
+
+// {newQuestion:newQuestion, newTrueAnswer:newTrueAnswer, newFalseAnswer:newFalseAnswer}
+// http://localhost:9000/api/quiz/new
+// Example of payload: { "question_text": "Love JS?", "true_answer_text": "yes", "false_answer_text": "nah" }
+export function postQuiz(params) {
   return function (dispatch) {
     // On successful POST:
     // - Dispatch the correct message to the the appropriate state
     // - Dispatch the resetting of the form
+
+  // console.log()
+    const {newQuestion, newTrueAnswer, newFalseAnswer} = params
+    const info = { question_text: newQuestion, true_answer_text: newTrueAnswer, false_answer_text: newFalseAnswer }
+    // console.log(info)
+    axios.post('http://localhost:9000/api/quiz/new', info)
+    .then(res => {
+      const quizFromAPI = res.data
+      dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: quizFromAPI }) 
+      dispatch({ type: types.RESET_FORM}) 
+      console.log('end post ')
+      // setQuiz(quizFromAPI)
+    })
+    .catch(err => {
+      // debugger
+      console.log(err.message)
+    })
+
+
   }
 }
 // ❗ On promise rejections, use log statements or breakpoints, and put an appropriate error message in state

@@ -43,7 +43,7 @@ const Quiz = (props) => {
           <>
           <h2>{quiz.question}</h2>
           <div id="quizAnswers">
-                  {quiz.answers.map( (answer, idx) => (
+                  {quiz.answers.map( (answer) => (
                   <Answer 
                     key={answer.answer_id} 
                     id={answer.answer_id} 
