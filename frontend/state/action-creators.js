@@ -56,6 +56,7 @@ export const fetchQuiz = () => {
     .catch(err => {
       // debugger
       console.log(err.message)
+      dispatch({ type: types.SET_INFO_MESSAGE, payload: err.message })
     })
 
 
@@ -99,12 +100,14 @@ export function postQuiz(params) {
 
   // console.log()
     const {newQuestion, newTrueAnswer, newFalseAnswer} = params
-    const info = { question_text: newQuestion, true_answer_text: newTrueAnswer, false_answer_text: newFalseAnswer }
-    // console.log(info)
+    const info = { question_text: newQuestion.trim(), true_answer_text: newTrueAnswer.trim(), false_answer_text: newFalseAnswer.trim() }
+    console.log(info)
     axios.post('http://localhost:9000/api/quiz/new', info)
     .then(res => {
       // debugger
       const quizFromAPI = res.data
+    console.log('res', res)
+
       // dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: quizFromAPI }) 
       dispatch({ type: types.RESET_FORM})
       const message = `Congrats: "${quizFromAPI.question}" is a great question!`
@@ -113,11 +116,11 @@ export function postQuiz(params) {
 
 
       console.log('end post ')
-      // setQuiz(quizFromAPI)
     })
     .catch(err => {
       // debugger
       console.log(err.message)
+      dispatch({ type: types.SET_INFO_MESSAGE, payload: err.message })
     })
 
 

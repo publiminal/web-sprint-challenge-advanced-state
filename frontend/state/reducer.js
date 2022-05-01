@@ -22,7 +22,7 @@ function wheel(wheelState = initialWheelState, action) {
 
 const initialQuizState = null
 function quiz(quizState = initialQuizState, action) {
-  console.log('entro a reducer quizState', action.payload)
+  // console.log('entro a reducer quizState', action.payload)
   
   switch(action.type){
     case types.SET_QUIZ_INTO_STATE:

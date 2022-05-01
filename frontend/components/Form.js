@@ -13,13 +13,13 @@ const Form = (props) => {
 
   const onSubmit = evt => {
       evt.preventDefault()
-      const params = {newQuestion:newQuestion, newTrueAnswer:newTrueAnswer, newFalseAnswer:newFalseAnswer}
+      // const params = {newQuestion:newQuestion, newTrueAnswer:newTrueAnswer, newFalseAnswer:newFalseAnswer}
       console.log('onsubmit', newQuestion )
       postQuiz({newQuestion:newQuestion, newTrueAnswer:newTrueAnswer, newFalseAnswer:newFalseAnswer})
   }
 
   const isDisabled = () => {
-    const isDisabled = newQuestion.trim().length >= 1 && newTrueAnswer.trim().length >= 1 && newFalseAnswer.trim().length >= 1  
+    const isDisabled = newQuestion.trim().length > 0 && newTrueAnswer.trim().length > 0 && newFalseAnswer.trim().length > 0  
     return !isDisabled
   }
 
