@@ -18,13 +18,20 @@ const Form = (props) => {
       postQuiz({newQuestion:newQuestion, newTrueAnswer:newTrueAnswer, newFalseAnswer:newFalseAnswer})
   }
 
+  const isDisabled = () => {
+    const isDisabled = newQuestion.trim().length >= 1 && newTrueAnswer.trim().length >= 1 && newFalseAnswer.trim().length >= 1  
+    return !isDisabled
+  }
+
+
+
   return (
     <form id="form" onSubmit={onSubmit}>
       <h2>Create New Quiz</h2>
       <input maxLength={50} value={newQuestion} onChange={onChange} id="newQuestion" placeholder="Enter question" />
       <input maxLength={50} value={newTrueAnswer} onChange={onChange} id="newTrueAnswer" placeholder="Enter true answer" />
       <input maxLength={50} value={newFalseAnswer} onChange={onChange} id="newFalseAnswer" placeholder="Enter false answer" />
-      <button id="submitNewQuizBtn">Submit new quiz</button>
+      <button disabled={isDisabled()} id="submitNewQuizBtn">Submit new quiz</button>
     </form>
   )
 }

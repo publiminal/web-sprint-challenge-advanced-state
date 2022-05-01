@@ -103,9 +103,15 @@ export function postQuiz(params) {
     // console.log(info)
     axios.post('http://localhost:9000/api/quiz/new', info)
     .then(res => {
+      // debugger
       const quizFromAPI = res.data
-      dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: quizFromAPI }) 
-      dispatch({ type: types.RESET_FORM}) 
+      // dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: quizFromAPI }) 
+      dispatch({ type: types.RESET_FORM})
+      const message = `Congrats: "${quizFromAPI.question}" is a great question!`
+      dispatch({ type: types.SET_INFO_MESSAGE, payload: message })
+      // dispatch({ type: types.RESET_FORM })
+
+
       console.log('end post ')
       // setQuiz(quizFromAPI)
     })
