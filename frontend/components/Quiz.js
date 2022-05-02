@@ -32,7 +32,7 @@ const Quiz = (props) => {
 
   const handlePostAnswer = () => {
     postAnswer({quizId:quiz.quiz_id, answerId:selectedAnswer})
-    fetchQuiz() 
+    // fetchQuiz() 
   }
 
   return (

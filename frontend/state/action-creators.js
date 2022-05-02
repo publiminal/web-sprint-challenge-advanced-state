@@ -48,6 +48,7 @@ export const fetchQuiz = () => {
     // - Dispatch an action to send the obtained quiz to its state
     axios.get('http://localhost:9000/api/quiz/next')
     .then(res => {
+      console.log('after quiz fetched !!')
       // debugger
       const quizFromAPI = res.data
       dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: quizFromAPI })
@@ -70,9 +71,27 @@ export function postAnswer({quizId, answerId}) {
     // debugger
     axios.post('http://localhost:9000/api/quiz/answer', info )
     .then(res => {
-      console.log('ok answer post ', res.data.message)
+      console.log('ok answer post ', res)
       dispatch({ type: types.SET_INFO_MESSAGE, payload: res.data.message })
       dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: null })
+      /* fetth quiz again */
+      axios.get('http://localhost:9000/api/quiz/next')
+      .then(res => {
+        console.log('after quiz fetched !!')
+        // debugger
+        const quizFromAPI = res.data
+        dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: quizFromAPI })
+        // setQuiz(quizFromAPI)
+      })
+      .catch(err => {
+        // debugger
+        console.log(err.message)
+        dispatch({ type: types.SET_INFO_MESSAGE, payload: err.message })
+      })
+
+
+
+      //
     })
     .catch(err => {
       // debugger
