@@ -26,7 +26,7 @@ const Quiz = (props) => {
   }, []); 
 
   const handleAnswerClick = (answerId) => {
-      setMessage('')//reset answer message if needed.
+      // setMessage('')//reset answer message if needed.
       selectAnswer(answerId)
   }
 

@@ -15,9 +15,12 @@ export const moveCounterClockwise = () => {
  }
 
 export function selectAnswer(answerId) {
-    console.log('select Answer Creator', answerId)
-    setMessage('') // clean message if needed
-    return {type:types.SET_SELECTED_ANSWER, payload:answerId}
+    return (dispatch) => {
+
+      console.log('select Answer Creator', answerId)
+      dispatch(setMessage('')) // clean message if needed
+      dispatch({type:types.SET_SELECTED_ANSWER, payload:answerId})
+    }
  }
 
 export function setMessage(message) { 
@@ -51,17 +54,13 @@ export const fetchQuiz = () => {
       console.log('after quiz fetched !!')
       // debugger
       const quizFromAPI = res.data
-      dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: quizFromAPI })
-      // setQuiz(quizFromAPI)
+      dispatch(setQuiz(quizFromAPI))
     })
     .catch(err => {
       // debugger
       console.log(err.message)
-      dispatch({ type: types.SET_INFO_MESSAGE, payload: err.message })
+      dispatch(setMessage(err.message))
     })
-
-
-
   }
 }
  // { "quiz_id": "LVqUh", "answer_id": "0VEv0" } 
@@ -72,31 +71,15 @@ export function postAnswer({quizId, answerId}) {
     axios.post('http://localhost:9000/api/quiz/answer', info )
     .then(res => {
       console.log('ok answer post ', res)
-      dispatch({ type: types.SET_INFO_MESSAGE, payload: res.data.message })
-      dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: null })
-      /* fetth quiz again */
-      axios.get('http://localhost:9000/api/quiz/next')
-      .then(res => {
-        console.log('after quiz fetched !!')
-        // debugger
-        const quizFromAPI = res.data
-        dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: quizFromAPI })
-        // setQuiz(quizFromAPI)
-      })
-      .catch(err => {
-        // debugger
-        console.log(err.message)
-        dispatch({ type: types.SET_INFO_MESSAGE, payload: err.message })
-      })
-
-
-
+      dispatch(setMessage(res.data.message))
+      dispatch(setQuiz(null))
+      dispatch(fetchQuiz())
       //
     })
     .catch(err => {
       // debugger
       console.log('error ', err.message)
-      dispatch({ type: types.SET_INFO_MESSAGE, payload: err.message })
+      dispatch(setMessage(err.message))
     })
 
     // On successful POST:
@@ -117,7 +100,6 @@ export function postQuiz(params) {
     // - Dispatch the correct message to the the appropriate state
     // - Dispatch the resetting of the form
 
-  // console.log()
     const {newQuestion, newTrueAnswer, newFalseAnswer} = params
     const info = { question_text: newQuestion.trim(), true_answer_text: newTrueAnswer.trim(), false_answer_text: newFalseAnswer.trim() }
     console.log(info)
@@ -125,20 +107,14 @@ export function postQuiz(params) {
     .then(res => {
       // debugger
       const quizFromAPI = res.data
-    console.log('res', res)
-
-      // dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: quizFromAPI }) 
-      dispatch({ type: types.RESET_FORM})
+      // console.log('res', res)
+      dispatch(resetForm())
       const message = `Congrats: "${quizFromAPI.question}" is a great question!`
-      dispatch({ type: types.SET_INFO_MESSAGE, payload: message })
-      // dispatch({ type: types.RESET_FORM })
-
-
-      console.log('end post ')
+      dispatch(setMessage(message))
     })
     .catch(err => {
       // debugger
-      console.log(err.message)
+      // console.log(err.message)
       dispatch({ type: types.SET_INFO_MESSAGE, payload: err.message })
     })
 
